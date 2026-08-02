@@ -12,6 +12,14 @@
   </head>
   <body>
     <main class="app-shell">
+      <header class="top-bar" aria-label="App header">
+        <div class="app-mark" aria-hidden="true">L</div>
+        <div>
+          <strong>Luna Log</strong>
+          <span>Private on-device tracker</span>
+        </div>
+      </header>
+
       <section class="hero-panel" aria-labelledby="app-title">
         <div class="hero-copy">
           <p class="eyebrow">Private cycle tracking</p>
@@ -23,8 +31,10 @@
 
         <div class="cycle-visual" aria-label="Cycle summary">
           <div class="cycle-ring" id="cycleRing">
-            <span id="cycleDayLabel">Day -</span>
-            <small id="cyclePhaseLabel">Add a period</small>
+            <div>
+              <span id="cycleDayLabel">Day -</span>
+              <small id="cyclePhaseLabel">Add a period</small>
+            </div>
           </div>
           <div class="next-date">
             <span>Next estimate</span>
@@ -51,19 +61,24 @@
       <section class="workspace">
         <form class="entry-form" id="periodForm">
           <div class="section-heading">
-            <h2>Add current or previous period</h2>
+            <div>
+              <span class="section-kicker">New entry</span>
+              <h2>Add current or previous period</h2>
+            </div>
             <button class="ghost-button" type="button" id="useTodayButton">Today</button>
           </div>
 
-          <label>
-            Start date
-            <input id="startDate" name="startDate" type="date" required />
-          </label>
+          <div class="date-grid">
+            <label>
+              Start date
+              <input id="startDate" name="startDate" type="date" required />
+            </label>
 
-          <label>
-            End date
-            <input id="endDate" name="endDate" type="date" />
-          </label>
+            <label>
+              End date
+              <input id="endDate" name="endDate" type="date" />
+            </label>
+          </div>
 
           <fieldset>
             <legend>Symptoms</legend>
@@ -89,7 +104,10 @@
 
         <section class="history-panel" aria-labelledby="history-title">
           <div class="section-heading">
-            <h2 id="history-title">History</h2>
+            <div>
+              <span class="section-kicker">Saved locally</span>
+              <h2 id="history-title">History</h2>
+            </div>
             <div class="button-row">
               <button class="ghost-button" type="button" id="exportButton">Export</button>
               <label class="ghost-button file-button">
