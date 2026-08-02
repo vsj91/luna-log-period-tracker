@@ -8,7 +8,7 @@
       content="A private period tracker that stores cycle history on this device."
     />
     <title>Luna Log Period Tracker</title>
-    <link rel="stylesheet" href="styles.css?v=cycle-phase-ui" />
+    <link rel="stylesheet" href="styles.css?v=cycle-map-ui" />
   </head>
   <body>
     <main class="app-shell">
@@ -46,61 +46,16 @@
         </div>
       </section>
 
-      <section class="stats-strip" aria-label="Cycle statistics">
-        <article>
-          <span>Average cycle</span>
-          <strong id="averageCycle">-</strong>
-        </article>
-        <article>
-          <span>Average period</span>
-          <strong id="averagePeriod">-</strong>
-        </article>
-        <article>
-          <span>Entries</span>
-          <strong id="entryCount">0</strong>
-        </article>
-      </section>
-
-      <section class="fertility-panel" aria-labelledby="fertility-title">
+      <form class="entry-form quick-log" id="periodForm">
         <div class="section-heading">
           <div>
-            <span class="section-kicker">Cycle insights</span>
-            <h2 id="fertility-title">Ovulation and egg window</h2>
+            <span class="section-kicker">New entry</span>
+            <h2>Add current or previous period</h2>
           </div>
-          <span class="estimate-pill" id="phasePill">Estimate</span>
+          <button class="ghost-button" type="button" id="useTodayButton">Today</button>
         </div>
-        <div class="insight-grid">
-          <article>
-            <span>Current phase</span>
-            <strong id="currentPhase">Add a period</strong>
-            <p id="phaseDetail">Your cycle phase appears here after a period is saved.</p>
-          </article>
-          <article>
-            <span>Ovulation estimate</span>
-            <strong id="ovulationDate">Not enough data</strong>
-            <p id="ovulationDetail">Ovulation is estimated from your average cycle length.</p>
-          </article>
-          <article>
-            <span>Fertile window</span>
-            <strong id="fertileWindow">Not enough data</strong>
-            <p id="eggDetail">The egg window appears here once your cycle can be estimated.</p>
-          </article>
-        </div>
-        <p class="medical-note">
-          Fertile-window and ovulation dates are estimates only. Do not use this as birth control or medical advice.
-        </p>
-      </section>
 
-      <section class="workspace">
-        <form class="entry-form" id="periodForm">
-          <div class="section-heading">
-            <div>
-              <span class="section-kicker">New entry</span>
-              <h2>Add current or previous period</h2>
-            </div>
-            <button class="ghost-button" type="button" id="useTodayButton">Today</button>
-          </div>
-
+        <div class="quick-log-grid">
           <div class="date-grid">
             <label>
               Start date
@@ -129,12 +84,52 @@
             Notes
             <textarea id="notes" name="notes" rows="4" placeholder="Flow, mood, medicine, or anything useful"></textarea>
           </label>
+        </div>
 
+        <div class="save-row">
+          <div>
+            <p class="helper-text">Pick any past date to rebuild your history. Entries stay on this device after refresh.</p>
+            <p class="status-line" id="formStatus" role="status"></p>
+          </div>
           <button class="primary-button" type="submit">Save entry</button>
-          <p class="helper-text">Pick any past date to rebuild your history. Entries stay on this device after refresh.</p>
-          <p class="status-line" id="formStatus" role="status"></p>
-        </form>
+        </div>
+      </form>
 
+      <section class="stats-strip" aria-label="Cycle statistics">
+        <article>
+          <span>Average cycle</span>
+          <strong id="averageCycle">-</strong>
+        </article>
+        <article>
+          <span>Average period</span>
+          <strong id="averagePeriod">-</strong>
+        </article>
+        <article>
+          <span>Entries</span>
+          <strong id="entryCount">0</strong>
+        </article>
+      </section>
+
+      <section class="cycle-map-panel" aria-labelledby="cycle-map-title">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Daily cycle tracker</span>
+            <h2 id="cycle-map-title">Cycle map</h2>
+          </div>
+          <span class="estimate-pill">Dots by day</span>
+        </div>
+        <div class="cycle-map" id="cycleMap" aria-label="Cycle day dots"></div>
+        <div class="cycle-legend" aria-label="Cycle phase legend">
+          <span><i class="legend-dot period"></i> Period</span>
+          <span><i class="legend-dot follicular"></i> Follicular</span>
+          <span><i class="legend-dot fertile"></i> Fertile</span>
+          <span><i class="legend-dot ovulation"></i> Ovulation</span>
+          <span><i class="legend-dot luteal"></i> Luteal</span>
+        </div>
+        <div class="day-story-list" id="dayStoryList"></div>
+      </section>
+
+      <section class="workspace">
         <section class="history-panel" aria-labelledby="history-title">
           <div class="section-heading">
             <div>
@@ -150,6 +145,36 @@
             </div>
           </div>
           <div class="timeline" id="timeline"></div>
+        </section>
+
+        <section class="fertility-panel" aria-labelledby="fertility-title">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">Cycle insights</span>
+              <h2 id="fertility-title">Ovulation and egg window</h2>
+            </div>
+            <span class="estimate-pill" id="phasePill">Estimate</span>
+          </div>
+          <div class="insight-grid">
+            <article>
+              <span>Current phase</span>
+              <strong id="currentPhase">Add a period</strong>
+              <p id="phaseDetail">Your cycle phase appears here after a period is saved.</p>
+            </article>
+            <article>
+              <span>Ovulation estimate</span>
+              <strong id="ovulationDate">Not enough data</strong>
+              <p id="ovulationDetail">Ovulation is estimated from your average cycle length.</p>
+            </article>
+            <article>
+              <span>Fertile window</span>
+              <strong id="fertileWindow">Not enough data</strong>
+              <p id="eggDetail">The egg window appears here once your cycle can be estimated.</p>
+            </article>
+          </div>
+          <p class="medical-note">
+            Fertile-window and ovulation dates are estimates only. Do not use this as birth control or medical advice.
+          </p>
         </section>
       </section>
 
@@ -176,6 +201,6 @@
       </article>
     </template>
 
-    <script src="app.js?v=cycle-phase-ui"></script>
+    <script src="app.js?v=cycle-map-ui"></script>
   </body>
 </html>

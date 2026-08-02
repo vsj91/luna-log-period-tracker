@@ -291,6 +291,17 @@ h2 {
 .fertility-panel {
   display: grid;
   gap: 18px;
+  padding: clamp(18px, 3vw, 24px);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 24px;
+  background: var(--panel);
+  box-shadow: var(--small-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.cycle-map-panel {
+  display: grid;
+  gap: 16px;
   margin-bottom: 18px;
   padding: clamp(18px, 3vw, 24px);
   border: 1px solid rgba(255, 255, 255, 0.72);
@@ -356,6 +367,152 @@ h2 {
   padding-top: 2px;
 }
 
+.cycle-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(34px, 1fr));
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.cycle-map-empty {
+  grid-column: 1 / -1;
+  min-height: 74px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  text-align: center;
+}
+
+.cycle-dot {
+  display: grid;
+  min-width: 0;
+  min-height: 38px;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: rgba(60, 60, 67, 0.1);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 780;
+}
+
+.cycle-dot span {
+  display: grid;
+  width: 26px;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.cycle-dot.period,
+.legend-dot.period,
+.day-story.period {
+  --dot-color: var(--accent);
+}
+
+.cycle-dot.follicular,
+.legend-dot.follicular,
+.day-story.follicular {
+  --dot-color: var(--blue);
+}
+
+.cycle-dot.fertile,
+.legend-dot.fertile,
+.day-story.fertile {
+  --dot-color: var(--teal);
+}
+
+.cycle-dot.ovulation,
+.legend-dot.ovulation,
+.day-story.ovulation {
+  --dot-color: var(--green);
+}
+
+.cycle-dot.luteal,
+.legend-dot.luteal,
+.day-story.luteal {
+  --dot-color: var(--violet);
+}
+
+.cycle-dot {
+  background: color-mix(in srgb, var(--dot-color) 14%, white);
+  color: color-mix(in srgb, var(--dot-color) 64%, var(--ink));
+}
+
+.cycle-dot.today {
+  border-color: var(--dot-color);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--dot-color) 18%, transparent);
+}
+
+.cycle-dot.today span {
+  background: var(--dot-color);
+  color: white;
+}
+
+.cycle-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.cycle-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--dot-color);
+}
+
+.day-story-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.day-story {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--dot-color);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.day-story.today {
+  background: color-mix(in srgb, var(--dot-color) 10%, white);
+}
+
+.day-story span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 720;
+}
+
+.day-story strong {
+  display: block;
+  font-size: 0.98rem;
+}
+
+.day-story p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
 .stats-strip article,
 .entry-form,
 .history-panel,
@@ -376,7 +533,7 @@ h2 {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(300px, 410px) minmax(0, 1fr);
+  grid-template-columns: minmax(300px, 0.86fr) minmax(0, 1.14fr);
   gap: 18px;
   align-items: start;
 }
@@ -392,6 +549,29 @@ h2 {
   gap: 18px;
   position: sticky;
   top: 18px;
+}
+
+.quick-log {
+  position: static;
+  margin: 18px 0;
+}
+
+.quick-log-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(280px, 1fr) minmax(260px, 0.9fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.quick-log .chip-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.save-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
 }
 
 .section-heading,
@@ -676,6 +856,7 @@ button:focus-visible,
 
   .hero-panel,
   .workspace,
+  .quick-log-grid,
   .insight-grid {
     grid-template-columns: 1fr;
   }
@@ -709,7 +890,8 @@ button:focus-visible,
   .entry-form,
   .history-panel,
   .privacy-panel,
-  .fertility-panel {
+  .fertility-panel,
+  .cycle-map-panel {
     border-radius: 24px;
   }
 
@@ -729,6 +911,21 @@ button:focus-visible,
   .stats-strip,
   .date-grid {
     grid-template-columns: 1fr;
+  }
+
+  .quick-log .chip-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cycle-map {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .cycle-dot {
+    min-height: 34px;
+    font-size: 0.72rem;
   }
 
   .stats-strip {
@@ -754,6 +951,14 @@ button:focus-visible,
   .privacy-panel button,
   .section-heading > button {
     flex: 1;
+    width: 100%;
+  }
+
+  .save-row {
+    grid-template-columns: 1fr;
+  }
+
+  .save-row .primary-button {
     width: 100%;
   }
 }
