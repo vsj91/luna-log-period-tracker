@@ -1,4 +1,4 @@
-# Luna Log Period Tracker
+# Luna Period Tracker
 
 A small privacy-first period tracker that runs as a static website. Period entries, symptoms, notes, and predictions are stored only in the current browser or mobile device with `localStorage`.
 
