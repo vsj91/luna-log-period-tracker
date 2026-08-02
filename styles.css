@@ -12,6 +12,9 @@
   --accent-dark: #bf2441;
   --blue: #007aff;
   --green: #34c759;
+  --teal: #00a6a6;
+  --violet: #af52de;
+  --amber: #ff9f0a;
   --soft: rgba(255, 45, 85, 0.1);
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.1);
   --small-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
@@ -189,6 +192,8 @@ h2 {
 
 .cycle-ring {
   --progress: 0deg;
+  --phase-color: var(--accent);
+  --phase-soft: rgba(255, 45, 85, 0.12);
   display: grid;
   width: min(54vw, 248px);
   aspect-ratio: 1;
@@ -196,11 +201,36 @@ h2 {
   border-radius: 50%;
   background:
     radial-gradient(circle at center, rgba(255, 255, 255, 0.98) 0 58%, transparent 59%),
-    conic-gradient(var(--accent) var(--progress), rgba(60, 60, 67, 0.1) 0);
+    conic-gradient(var(--phase-color) var(--progress), rgba(60, 60, 67, 0.1) 0);
   box-shadow:
     inset 0 0 0 1px rgba(60, 60, 67, 0.08),
-    0 18px 44px rgba(255, 45, 85, 0.18);
+    0 18px 44px var(--phase-soft);
   text-align: center;
+}
+
+.cycle-ring.phase-period {
+  --phase-color: var(--accent);
+  --phase-soft: rgba(255, 45, 85, 0.2);
+}
+
+.cycle-ring.phase-follicular {
+  --phase-color: var(--blue);
+  --phase-soft: rgba(0, 122, 255, 0.18);
+}
+
+.cycle-ring.phase-fertile {
+  --phase-color: var(--teal);
+  --phase-soft: rgba(0, 166, 166, 0.18);
+}
+
+.cycle-ring.phase-ovulation {
+  --phase-color: var(--green);
+  --phase-soft: rgba(52, 199, 89, 0.2);
+}
+
+.cycle-ring.phase-luteal {
+  --phase-color: var(--violet);
+  --phase-soft: rgba(175, 82, 222, 0.18);
 }
 
 .cycle-ring span {
@@ -230,6 +260,14 @@ h2 {
   text-align: center;
 }
 
+.phase-summary {
+  max-width: 280px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
 .next-date span,
 .stats-strip span,
 .entry-meta {
@@ -248,6 +286,74 @@ h2 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin: 18px 0;
+}
+
+.fertility-panel {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 18px;
+  padding: clamp(18px, 3vw, 24px);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 24px;
+  background: var(--panel);
+  box-shadow: var(--small-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.estimate-pill {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 122, 255, 0.18);
+  border-radius: 999px;
+  padding: 0 12px;
+  background: rgba(0, 122, 255, 0.08);
+  color: var(--blue);
+  font-size: 0.82rem;
+  font-weight: 760;
+}
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.insight-grid article {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.insight-grid span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 720;
+}
+
+.insight-grid strong {
+  display: block;
+  font-size: 1.08rem;
+  font-weight: 780;
+  line-height: 1.25;
+}
+
+.insight-grid p,
+.medical-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.medical-note {
+  margin-top: 0;
+  padding-top: 2px;
 }
 
 .stats-strip article,
@@ -569,7 +675,8 @@ button:focus-visible,
   }
 
   .hero-panel,
-  .workspace {
+  .workspace,
+  .insight-grid {
     grid-template-columns: 1fr;
   }
 
@@ -601,7 +708,8 @@ button:focus-visible,
   .hero-panel,
   .entry-form,
   .history-panel,
-  .privacy-panel {
+  .privacy-panel,
+  .fertility-panel {
     border-radius: 24px;
   }
 

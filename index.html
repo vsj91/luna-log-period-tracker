@@ -8,7 +8,7 @@
       content="A private period tracker that stores cycle history on this device."
     />
     <title>Luna Log Period Tracker</title>
-    <link rel="stylesheet" href="styles.css?v=apple-responsive-ui" />
+    <link rel="stylesheet" href="styles.css?v=cycle-phase-ui" />
   </head>
   <body>
     <main class="app-shell">
@@ -40,6 +40,9 @@
             <span>Next estimate</span>
             <strong id="nextPeriodDate">Not enough data</strong>
           </div>
+          <div class="phase-summary" id="phaseSummary">
+            Add your last period to estimate ovulation and fertile days.
+          </div>
         </div>
       </section>
 
@@ -56,6 +59,36 @@
           <span>Entries</span>
           <strong id="entryCount">0</strong>
         </article>
+      </section>
+
+      <section class="fertility-panel" aria-labelledby="fertility-title">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Cycle insights</span>
+            <h2 id="fertility-title">Ovulation and egg window</h2>
+          </div>
+          <span class="estimate-pill" id="phasePill">Estimate</span>
+        </div>
+        <div class="insight-grid">
+          <article>
+            <span>Current phase</span>
+            <strong id="currentPhase">Add a period</strong>
+            <p id="phaseDetail">Your cycle phase appears here after a period is saved.</p>
+          </article>
+          <article>
+            <span>Ovulation estimate</span>
+            <strong id="ovulationDate">Not enough data</strong>
+            <p id="ovulationDetail">Ovulation is estimated from your average cycle length.</p>
+          </article>
+          <article>
+            <span>Fertile window</span>
+            <strong id="fertileWindow">Not enough data</strong>
+            <p id="eggDetail">The egg window appears here once your cycle can be estimated.</p>
+          </article>
+        </div>
+        <p class="medical-note">
+          Fertile-window and ovulation dates are estimates only. Do not use this as birth control or medical advice.
+        </p>
       </section>
 
       <section class="workspace">
@@ -143,6 +176,6 @@
       </article>
     </template>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=cycle-phase-ui"></script>
   </body>
 </html>

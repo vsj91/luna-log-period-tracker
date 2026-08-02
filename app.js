@@ -16,6 +16,14 @@ const nextPeriodDate = document.querySelector("#nextPeriodDate");
 const cycleDayLabel = document.querySelector("#cycleDayLabel");
 const cyclePhaseLabel = document.querySelector("#cyclePhaseLabel");
 const cycleRing = document.querySelector("#cycleRing");
+const phaseSummary = document.querySelector("#phaseSummary");
+const phasePill = document.querySelector("#phasePill");
+const currentPhase = document.querySelector("#currentPhase");
+const phaseDetail = document.querySelector("#phaseDetail");
+const ovulationDate = document.querySelector("#ovulationDate");
+const ovulationDetail = document.querySelector("#ovulationDetail");
+const fertileWindow = document.querySelector("#fertileWindow");
+const eggDetail = document.querySelector("#eggDetail");
 const useTodayButton = document.querySelector("#useTodayButton");
 const exportButton = document.querySelector("#exportButton");
 const importFile = document.querySelector("#importFile");
@@ -83,6 +91,10 @@ function addDays(value, days) {
   return toInputDate(date);
 }
 
+function formatShortRange(start, end) {
+  return `${formatDate(start)} - ${formatDate(end)}`;
+}
+
 function average(numbers) {
   if (!numbers.length) return null;
   return Math.round(numbers.reduce((sum, number) => sum + number, 0) / numbers.length);
@@ -109,6 +121,61 @@ function getCycleStats() {
   };
 }
 
+function getCycleEstimate(latest, stats) {
+  const today = toInputDate();
+  const daysSinceLatestStart = Math.max(0, daysBetween(latest.startDate, today));
+  const cycleIndex = Math.floor(daysSinceLatestStart / stats.averageCycleLength);
+  const currentCycleStart = addDays(latest.startDate, cycleIndex * stats.averageCycleLength);
+  const cycleDay = daysBetween(currentCycleStart, today) + 1;
+  const nextStart = addDays(currentCycleStart, stats.averageCycleLength);
+  const ovulationDay = Math.max(stats.averagePeriodLength + 1, stats.averageCycleLength - 14);
+  const ovulation = addDays(currentCycleStart, ovulationDay - 1);
+  const fertileStart = addDays(ovulation, -5);
+  const fertileEnd = addDays(ovulation, 1);
+  const periodEnd = addDays(currentCycleStart, stats.averagePeriodLength - 1);
+  const progress = Math.min(360, Math.max(4, Math.round((cycleDay / stats.averageCycleLength) * 360)));
+  const daysToOvulation = daysBetween(today, ovulation);
+  const daysToNextPeriod = daysBetween(today, nextStart);
+
+  let phase = "Follicular";
+  let phaseClass = "phase-follicular";
+  let detail = "Hormones are preparing the ovaries and rebuilding the uterine lining before ovulation.";
+
+  if (cycleDay <= stats.averagePeriodLength) {
+    phase = "Period";
+    phaseClass = "phase-period";
+    detail = "Bleeding days are counted as the start of this cycle.";
+  } else if (today >= fertileStart && today <= fertileEnd) {
+    phase = today === ovulation ? "Ovulation estimate" : "Fertile window";
+    phaseClass = today === ovulation ? "phase-ovulation" : "phase-fertile";
+    detail =
+      today === ovulation
+        ? "Estimated egg release day. The egg is usually fertilizable for about 12-24 hours."
+        : "This is the estimated fertile window around ovulation.";
+  } else if (today > fertileEnd) {
+    phase = "Luteal";
+    phaseClass = "phase-luteal";
+    detail = "This phase follows ovulation and continues toward the next expected period.";
+  }
+
+  return {
+    currentCycleStart,
+    cycleDay,
+    daysToNextPeriod,
+    daysToOvulation,
+    fertileEnd,
+    fertileStart,
+    nextStart,
+    ovulation,
+    ovulationDay,
+    periodEnd,
+    phase,
+    phaseClass,
+    detail,
+    progress,
+  };
+}
+
 function renderSummary() {
   const stats = getCycleStats();
   const latest = entries[0];
@@ -121,20 +188,41 @@ function renderSummary() {
     nextPeriodDate.textContent = "Not enough data";
     cycleDayLabel.textContent = "Day -";
     cyclePhaseLabel.textContent = "Add a period";
+    phaseSummary.textContent = "Add your last period to estimate ovulation and fertile days.";
+    phasePill.textContent = "Estimate";
+    currentPhase.textContent = "Add a period";
+    phaseDetail.textContent = "Your cycle phase appears here after a period is saved.";
+    ovulationDate.textContent = "Not enough data";
+    ovulationDetail.textContent = "Ovulation is estimated from your average cycle length.";
+    fertileWindow.textContent = "Not enough data";
+    eggDetail.textContent = "The egg window appears here once your cycle can be estimated.";
     cycleRing.style.setProperty("--progress", "0deg");
+    cycleRing.className = "cycle-ring";
     return;
   }
 
-  const today = toInputDate();
-  const day = Math.max(1, daysBetween(latest.startDate, today) + 1);
-  const progress = Math.min(360, Math.round((day / stats.averageCycleLength) * 360));
-  const nextStart = addDays(latest.startDate, stats.averageCycleLength);
-  const isOnPeriod = day <= inclusiveDays(latest.startDate, latest.endDate || addDays(latest.startDate, stats.averagePeriodLength - 1));
+  const estimate = getCycleEstimate(latest, stats);
+  const ovulationCountdown =
+    estimate.daysToOvulation > 0
+      ? `${estimate.daysToOvulation} days away`
+      : estimate.daysToOvulation === 0
+        ? "Estimated today"
+        : `${Math.abs(estimate.daysToOvulation)} days ago`;
 
-  cycleDayLabel.textContent = `Day ${day}`;
-  cyclePhaseLabel.textContent = isOnPeriod ? "Period window" : "Cycle day";
-  nextPeriodDate.textContent = formatDate(nextStart);
-  cycleRing.style.setProperty("--progress", `${progress}deg`);
+  cycleDayLabel.textContent = `Day ${estimate.cycleDay}`;
+  cyclePhaseLabel.textContent = estimate.phase;
+  nextPeriodDate.textContent = formatDate(estimate.nextStart);
+  phaseSummary.textContent = `${estimate.phase}: next period estimate in ${Math.max(0, estimate.daysToNextPeriod)} days.`;
+  phasePill.textContent = stats.measuredCycleLength ? "Based on history" : "28-day estimate";
+  currentPhase.textContent = estimate.phase;
+  phaseDetail.textContent = estimate.detail;
+  ovulationDate.textContent = formatDate(estimate.ovulation);
+  ovulationDetail.textContent = `Estimated cycle day ${estimate.ovulationDay}; ${ovulationCountdown}.`;
+  fertileWindow.textContent = formatShortRange(estimate.fertileStart, estimate.fertileEnd);
+  eggDetail.textContent =
+    "The fertile window includes the 5 days before ovulation and about 1 day after; the egg usually survives about 12-24 hours.";
+  cycleRing.style.setProperty("--progress", `${estimate.progress}deg`);
+  cycleRing.className = `cycle-ring ${estimate.phaseClass}`;
 }
 
 function renderTimeline() {
