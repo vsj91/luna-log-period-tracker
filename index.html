@@ -8,7 +8,7 @@
       content="A private period tracker that stores cycle history on this device."
     />
     <title>Luna Period Tracker</title>
-    <link rel="stylesheet" href="styles.css?v=collapsible-entry-ui" />
+    <link rel="stylesheet" href="styles.css?v=hero-entry-ui" />
   </head>
   <body>
     <main class="app-shell">
@@ -27,6 +27,68 @@
           <p class="lede">
             Track previous and current periods, symptoms, notes, and cycle predictions with data saved only in this browser.
           </p>
+
+          <details class="entry-disclosure hero-entry">
+            <summary>
+              <div>
+                <span class="section-kicker">New entry</span>
+                <h2>Add current or previous period</h2>
+                <p>Add dates, symptoms, and notes only when you need them.</p>
+                <p class="summary-status" id="entrySummaryStatus">Closed until you want to log something.</p>
+              </div>
+              <span class="summary-action">Add entry</span>
+            </summary>
+
+            <form class="entry-form quick-log" id="periodForm">
+              <div class="section-heading">
+                <div>
+                  <span class="section-kicker">Period details</span>
+                  <h2>Add dates</h2>
+                </div>
+                <button class="ghost-button" type="button" id="useTodayButton">Today</button>
+              </div>
+
+              <div class="quick-log-grid">
+                <div class="date-grid">
+                  <label>
+                    Period start
+                    <input id="startDate" name="startDate" type="date" required />
+                  </label>
+
+                  <label class="optional-date-field">
+                    <span class="label-row">End date <small>Optional</small></span>
+                    <input id="endDate" name="endDate" type="date" />
+                    <span class="field-hint">Use for old records. Leave blank if it is still going.</span>
+                  </label>
+                </div>
+
+                <fieldset>
+                  <legend>Symptoms</legend>
+                  <div class="chip-grid" id="symptomGrid">
+                    <label><input type="checkbox" value="Cramps" /> Cramps</label>
+                    <label><input type="checkbox" value="Headache" /> Headache</label>
+                    <label><input type="checkbox" value="Fatigue" /> Fatigue</label>
+                    <label><input type="checkbox" value="Bloating" /> Bloating</label>
+                    <label><input type="checkbox" value="Mood changes" /> Mood</label>
+                    <label><input type="checkbox" value="Tenderness" /> Tenderness</label>
+                  </div>
+                </fieldset>
+
+                <label>
+                  Notes
+                  <textarea id="notes" name="notes" rows="4" placeholder="Flow, mood, medicine, or anything useful"></textarea>
+                </label>
+              </div>
+
+              <div class="save-row">
+                <div>
+                  <p class="helper-text">Add just the start date for a current period. Add an end date when entering an old completed record.</p>
+                  <p class="status-line" id="formStatus" role="status"></p>
+                </div>
+                <button class="primary-button" type="submit">Save entry</button>
+              </div>
+            </form>
+          </details>
         </div>
 
         <div class="cycle-visual" aria-label="Cycle summary">
@@ -45,68 +107,6 @@
           </div>
         </div>
       </section>
-
-      <details class="entry-disclosure">
-        <summary>
-          <div>
-            <span class="section-kicker">New entry</span>
-            <h2>Add current or previous period</h2>
-            <p>Add dates, symptoms, and notes only when you need them.</p>
-            <p class="summary-status" id="entrySummaryStatus">Closed until you want to log something.</p>
-          </div>
-          <span class="summary-action">Add entry</span>
-        </summary>
-
-        <form class="entry-form quick-log" id="periodForm">
-          <div class="section-heading">
-            <div>
-              <span class="section-kicker">Period details</span>
-              <h2>Add dates</h2>
-            </div>
-            <button class="ghost-button" type="button" id="useTodayButton">Today</button>
-          </div>
-
-          <div class="quick-log-grid">
-            <div class="date-grid">
-              <label>
-                Period start
-                <input id="startDate" name="startDate" type="date" required />
-              </label>
-
-              <label class="optional-date-field">
-                <span class="label-row">End date <small>Optional</small></span>
-                <input id="endDate" name="endDate" type="date" />
-                <span class="field-hint">Use for old records. Leave blank if it is still going.</span>
-              </label>
-            </div>
-
-            <fieldset>
-              <legend>Symptoms</legend>
-              <div class="chip-grid" id="symptomGrid">
-                <label><input type="checkbox" value="Cramps" /> Cramps</label>
-                <label><input type="checkbox" value="Headache" /> Headache</label>
-                <label><input type="checkbox" value="Fatigue" /> Fatigue</label>
-                <label><input type="checkbox" value="Bloating" /> Bloating</label>
-                <label><input type="checkbox" value="Mood changes" /> Mood</label>
-                <label><input type="checkbox" value="Tenderness" /> Tenderness</label>
-              </div>
-            </fieldset>
-
-            <label>
-              Notes
-              <textarea id="notes" name="notes" rows="4" placeholder="Flow, mood, medicine, or anything useful"></textarea>
-            </label>
-          </div>
-
-          <div class="save-row">
-            <div>
-              <p class="helper-text">Add just the start date for a current period. Add an end date when entering an old completed record.</p>
-              <p class="status-line" id="formStatus" role="status"></p>
-            </div>
-            <button class="primary-button" type="submit">Save entry</button>
-          </div>
-        </form>
-      </details>
 
       <section class="stats-strip" aria-label="Cycle statistics">
         <article>
@@ -215,6 +215,6 @@
       </article>
     </template>
 
-    <script src="app.js?v=collapsible-entry-ui"></script>
+    <script src="app.js?v=hero-entry-ui"></script>
   </body>
 </html>

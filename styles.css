@@ -465,6 +465,11 @@ h2 {
   overflow: hidden;
 }
 
+.hero-entry {
+  margin: 24px 0 0;
+  max-width: 620px;
+}
+
 .entry-disclosure summary {
   display: flex;
   align-items: center;
@@ -544,6 +549,22 @@ h2 {
 
 .quick-log .chip-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.hero-entry .quick-log-grid {
+  grid-template-columns: 1fr;
+}
+
+.hero-entry .quick-log .chip-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hero-entry .save-row {
+  grid-template-columns: 1fr;
+}
+
+.hero-entry .save-row .primary-button {
+  width: 100%;
 }
 
 .save-row {
