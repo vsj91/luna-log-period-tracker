@@ -599,6 +599,33 @@ fieldset {
   font-weight: 700;
 }
 
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.label-row small {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0 9px;
+  background: rgba(0, 122, 255, 0.08);
+  color: var(--blue);
+  font-size: 0.72rem;
+  font-weight: 780;
+}
+
+.field-hint {
+  margin-top: -2px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
 fieldset {
   margin: 0;
   padding: 0;

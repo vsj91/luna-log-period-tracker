@@ -8,7 +8,7 @@
       content="A private period tracker that stores cycle history on this device."
     />
     <title>Luna Log Period Tracker</title>
-    <link rel="stylesheet" href="styles.css?v=cycle-map-ui" />
+    <link rel="stylesheet" href="styles.css?v=optional-end-date-ui" />
   </head>
   <body>
     <main class="app-shell">
@@ -58,13 +58,14 @@
         <div class="quick-log-grid">
           <div class="date-grid">
             <label>
-              Start date
+              Period start
               <input id="startDate" name="startDate" type="date" required />
             </label>
 
-            <label>
-              End date
+            <label class="optional-date-field">
+              <span class="label-row">End date <small>Optional</small></span>
               <input id="endDate" name="endDate" type="date" />
+              <span class="field-hint">Use for old records. Leave blank if it is still going.</span>
             </label>
           </div>
 
@@ -88,7 +89,7 @@
 
         <div class="save-row">
           <div>
-            <p class="helper-text">Pick any past date to rebuild your history. Entries stay on this device after refresh.</p>
+            <p class="helper-text">Add just the start date for a current period. Add an end date when entering an old completed record.</p>
             <p class="status-line" id="formStatus" role="status"></p>
           </div>
           <button class="primary-button" type="submit">Save entry</button>
@@ -201,6 +202,6 @@
       </article>
     </template>
 
-    <script src="app.js?v=cycle-map-ui"></script>
+    <script src="app.js?v=optional-end-date-ui"></script>
   </body>
 </html>
