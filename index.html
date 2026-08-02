@@ -8,7 +8,7 @@
       content="A private period tracker that stores cycle history on this device."
     />
     <title>Luna Log Period Tracker</title>
-    <link rel="stylesheet" href="styles.css?v=optional-end-date-ui" />
+    <link rel="stylesheet" href="styles.css?v=today-focus-ui" />
   </head>
   <body>
     <main class="app-shell">
@@ -111,23 +111,24 @@
         </article>
       </section>
 
-      <section class="cycle-map-panel" aria-labelledby="cycle-map-title">
+      <section class="today-focus-panel" aria-labelledby="today-focus-title">
         <div class="section-heading">
           <div>
-            <span class="section-kicker">Daily cycle tracker</span>
-            <h2 id="cycle-map-title">Cycle map</h2>
+            <span class="section-kicker">Today</span>
+            <h2 id="today-focus-title">Today in your cycle</h2>
           </div>
-          <span class="estimate-pill">Dots by day</span>
+          <span class="estimate-pill" id="todayFocusPill">Add a period</span>
         </div>
-        <div class="cycle-map" id="cycleMap" aria-label="Cycle day dots"></div>
-        <div class="cycle-legend" aria-label="Cycle phase legend">
-          <span><i class="legend-dot period"></i> Period</span>
-          <span><i class="legend-dot follicular"></i> Follicular</span>
-          <span><i class="legend-dot fertile"></i> Fertile</span>
-          <span><i class="legend-dot ovulation"></i> Ovulation</span>
-          <span><i class="legend-dot luteal"></i> Luteal</span>
+        <div class="today-focus-card">
+          <div class="today-logo" aria-hidden="true">
+            <span>L</span>
+          </div>
+          <div class="today-copy">
+            <span id="todayDateLabel">No cycle date yet</span>
+            <strong id="todayPhaseLabel">Add your last period</strong>
+            <p id="todayStoryText">Save a period start date to see what may be happening today.</p>
+          </div>
         </div>
-        <div class="day-story-list" id="dayStoryList"></div>
       </section>
 
       <section class="workspace">
@@ -202,6 +203,6 @@
       </article>
     </template>
 
-    <script src="app.js?v=optional-end-date-ui"></script>
+    <script src="app.js?v=today-focus-ui"></script>
   </body>
 </html>

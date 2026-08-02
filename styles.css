@@ -299,7 +299,7 @@ h2 {
   backdrop-filter: blur(18px);
 }
 
-.cycle-map-panel {
+.today-focus-panel {
   display: grid;
   gap: 16px;
   margin-bottom: 18px;
@@ -309,6 +309,67 @@ h2 {
   background: var(--panel);
   box-shadow: var(--small-shadow);
   backdrop-filter: blur(18px);
+}
+
+.today-focus-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  padding: clamp(18px, 4vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(255, 45, 85, 0.16), transparent 14rem),
+    rgba(255, 255, 255, 0.68);
+}
+
+.today-logo {
+  display: grid;
+  width: clamp(76px, 12vw, 112px);
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 30px;
+  background:
+    linear-gradient(145deg, rgba(255, 45, 85, 0.98), rgba(255, 122, 144, 0.9)),
+    #ff2d55;
+  box-shadow: 0 18px 36px rgba(255, 45, 85, 0.24);
+}
+
+.today-logo span {
+  color: white;
+  font-size: clamp(2.3rem, 7vw, 4.2rem);
+  font-weight: 850;
+  line-height: 1;
+}
+
+.today-copy {
+  min-width: 0;
+}
+
+.today-copy span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 740;
+}
+
+.today-copy strong {
+  display: block;
+  color: var(--ink);
+  font-size: clamp(1.65rem, 5vw, 3rem);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.05;
+}
+
+.today-copy p {
+  max-width: 62ch;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: clamp(0.98rem, 2vw, 1.12rem);
+  line-height: 1.5;
 }
 
 .estimate-pill {
@@ -365,152 +426,6 @@ h2 {
 .medical-note {
   margin-top: 0;
   padding-top: 2px;
-}
-
-.cycle-map {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(34px, 1fr));
-  gap: 10px;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.58);
-}
-
-.cycle-map-empty {
-  grid-column: 1 / -1;
-  min-height: 74px;
-  display: grid;
-  place-items: center;
-  color: var(--muted);
-  text-align: center;
-}
-
-.cycle-dot {
-  display: grid;
-  min-width: 0;
-  min-height: 38px;
-  place-items: center;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  background: rgba(60, 60, 67, 0.1);
-  color: var(--ink);
-  font-size: 0.78rem;
-  font-weight: 780;
-}
-
-.cycle-dot span {
-  display: grid;
-  width: 26px;
-  aspect-ratio: 1;
-  place-items: center;
-  border-radius: 50%;
-}
-
-.cycle-dot.period,
-.legend-dot.period,
-.day-story.period {
-  --dot-color: var(--accent);
-}
-
-.cycle-dot.follicular,
-.legend-dot.follicular,
-.day-story.follicular {
-  --dot-color: var(--blue);
-}
-
-.cycle-dot.fertile,
-.legend-dot.fertile,
-.day-story.fertile {
-  --dot-color: var(--teal);
-}
-
-.cycle-dot.ovulation,
-.legend-dot.ovulation,
-.day-story.ovulation {
-  --dot-color: var(--green);
-}
-
-.cycle-dot.luteal,
-.legend-dot.luteal,
-.day-story.luteal {
-  --dot-color: var(--violet);
-}
-
-.cycle-dot {
-  background: color-mix(in srgb, var(--dot-color) 14%, white);
-  color: color-mix(in srgb, var(--dot-color) 64%, var(--ink));
-}
-
-.cycle-dot.today {
-  border-color: var(--dot-color);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--dot-color) 18%, transparent);
-}
-
-.cycle-dot.today span {
-  background: var(--dot-color);
-  color: white;
-}
-
-.cycle-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 14px;
-  color: var(--muted);
-  font-size: 0.84rem;
-  font-weight: 700;
-}
-
-.cycle-legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.legend-dot {
-  width: 10px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--dot-color);
-}
-
-.day-story-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-}
-
-.day-story {
-  min-width: 0;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-left: 5px solid var(--dot-color);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.72);
-}
-
-.day-story.today {
-  background: color-mix(in srgb, var(--dot-color) 10%, white);
-}
-
-.day-story span {
-  display: block;
-  margin-bottom: 6px;
-  color: var(--muted);
-  font-size: 0.8rem;
-  font-weight: 720;
-}
-
-.day-story strong {
-  display: block;
-  font-size: 0.98rem;
-}
-
-.day-story p {
-  margin: 6px 0 0;
-  color: var(--muted);
-  font-size: 0.88rem;
-  line-height: 1.45;
 }
 
 .stats-strip article,
@@ -918,7 +833,7 @@ button:focus-visible,
   .history-panel,
   .privacy-panel,
   .fertility-panel,
-  .cycle-map-panel {
+  .today-focus-panel {
     border-radius: 24px;
   }
 
@@ -944,15 +859,9 @@ button:focus-visible,
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .cycle-map {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 8px;
-    padding: 10px;
-  }
-
-  .cycle-dot {
-    min-height: 34px;
-    font-size: 0.72rem;
+  .today-focus-card {
+    grid-template-columns: 1fr;
+    justify-items: start;
   }
 
   .stats-strip {

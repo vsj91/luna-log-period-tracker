@@ -24,8 +24,10 @@ const ovulationDate = document.querySelector("#ovulationDate");
 const ovulationDetail = document.querySelector("#ovulationDetail");
 const fertileWindow = document.querySelector("#fertileWindow");
 const eggDetail = document.querySelector("#eggDetail");
-const cycleMap = document.querySelector("#cycleMap");
-const dayStoryList = document.querySelector("#dayStoryList");
+const todayFocusPill = document.querySelector("#todayFocusPill");
+const todayDateLabel = document.querySelector("#todayDateLabel");
+const todayPhaseLabel = document.querySelector("#todayPhaseLabel");
+const todayStoryText = document.querySelector("#todayStoryText");
 const useTodayButton = document.querySelector("#useTodayButton");
 const exportButton = document.querySelector("#exportButton");
 const importFile = document.querySelector("#importFile");
@@ -222,56 +224,21 @@ function getDayPhase(dayNumber, estimate, stats) {
   };
 }
 
-function renderCycleMap(estimate, stats) {
-  cycleMap.replaceChildren();
-  dayStoryList.replaceChildren();
-
+function renderTodayFocus(estimate, stats) {
   if (!estimate) {
-    const empty = document.createElement("div");
-    empty.className = "cycle-map-empty";
-    empty.textContent = "Add a period date to draw your cycle map.";
-    cycleMap.append(empty);
+    todayFocusPill.textContent = "Add a period";
+    todayDateLabel.textContent = "No cycle date yet";
+    todayPhaseLabel.textContent = "Add your last period";
+    todayStoryText.textContent = "Save a period start date to see what may be happening today.";
     return;
   }
 
-  const maxDays = Math.min(Math.max(stats.averageCycleLength, 21), 45);
-  const storyDays = new Set([
-    1,
-    Math.min(stats.averagePeriodLength, maxDays),
-    Math.max(1, estimate.ovulationDay - 5),
-    estimate.ovulationDay,
-    Math.min(maxDays, estimate.ovulationDay + 1),
-    estimate.cycleDay,
-    maxDays,
-  ]);
-
-  for (let dayNumber = 1; dayNumber <= maxDays; dayNumber += 1) {
-    const phase = getDayPhase(dayNumber, estimate, stats);
-    const date = addDays(estimate.currentCycleStart, dayNumber - 1);
-    const dot = document.createElement("button");
-    dot.type = "button";
-    dot.className = `cycle-dot ${phase.key}`;
-    if (dayNumber === estimate.cycleDay) dot.classList.add("today");
-    dot.setAttribute(
-      "aria-label",
-      `Day ${dayNumber}, ${formatDate(date)}: ${phase.label}. ${phase.story}`
-    );
-    dot.title = `Day ${dayNumber} - ${formatDate(date)}\n${phase.label}: ${phase.story}`;
-    dot.innerHTML = `<span>${dayNumber}</span>`;
-    cycleMap.append(dot);
-
-    if (storyDays.has(dayNumber)) {
-      const item = document.createElement("article");
-      item.className = `day-story ${phase.key}`;
-      if (dayNumber === estimate.cycleDay) item.classList.add("today");
-      item.innerHTML = `
-        <span>Day ${dayNumber} · ${formatDate(date)}</span>
-        <strong>${dayNumber === estimate.cycleDay ? "Today: " : ""}${phase.label}</strong>
-        <p>${phase.story}</p>
-      `;
-      dayStoryList.append(item);
-    }
-  }
+  const phase = getDayPhase(estimate.cycleDay, estimate, stats);
+  const today = toInputDate();
+  todayFocusPill.textContent = `Day ${estimate.cycleDay}`;
+  todayDateLabel.textContent = formatDate(today);
+  todayPhaseLabel.textContent = phase.label;
+  todayStoryText.textContent = phase.story;
 }
 
 function renderSummary() {
@@ -296,7 +263,7 @@ function renderSummary() {
     eggDetail.textContent = "The egg window appears here once your cycle can be estimated.";
     cycleRing.style.setProperty("--progress", "0deg");
     cycleRing.className = "cycle-ring";
-    renderCycleMap(null, stats);
+    renderTodayFocus(null, stats);
     return;
   }
 
@@ -322,7 +289,7 @@ function renderSummary() {
     "The fertile window includes the 5 days before ovulation and about 1 day after; the egg usually survives about 12-24 hours.";
   cycleRing.style.setProperty("--progress", `${estimate.progress}deg`);
   cycleRing.className = `cycle-ring ${estimate.phaseClass}`;
-  renderCycleMap(estimate, stats);
+  renderTodayFocus(estimate, stats);
 }
 
 function renderTimeline() {
