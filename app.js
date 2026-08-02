@@ -2,6 +2,8 @@ const STORAGE_KEY = "luna-log-period-entries-v1";
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 const form = document.querySelector("#periodForm");
+const entryDisclosure = document.querySelector(".entry-disclosure");
+const entrySummaryStatus = document.querySelector("#entrySummaryStatus");
 const startDateInput = document.querySelector("#startDate");
 const endDateInput = document.querySelector("#endDate");
 const notesInput = document.querySelector("#notes");
@@ -241,6 +243,10 @@ function renderTodayFocus(estimate, stats) {
   todayStoryText.textContent = phase.story;
 }
 
+function setEntrySummary(message) {
+  if (entrySummaryStatus) entrySummaryStatus.textContent = message;
+}
+
 function renderSummary() {
   const stats = getCycleStats();
   const latest = entries[0];
@@ -264,6 +270,7 @@ function renderSummary() {
     cycleRing.style.setProperty("--progress", "0deg");
     cycleRing.className = "cycle-ring";
     renderTodayFocus(null, stats);
+    setEntrySummary("Closed until you want to log something.");
     return;
   }
 
@@ -290,6 +297,7 @@ function renderSummary() {
   cycleRing.style.setProperty("--progress", `${estimate.progress}deg`);
   cycleRing.className = `cycle-ring ${estimate.phaseClass}`;
   renderTodayFocus(estimate, stats);
+  setEntrySummary(`Latest saved period starts ${formatDate(latest.startDate)}.`);
 }
 
 function renderTimeline() {
@@ -375,6 +383,8 @@ form.addEventListener("submit", (event) => {
   clearForm();
   formStatus.textContent = "Entry saved on this device.";
   render();
+  setEntrySummary("Saved. Tap Add entry to log another period.");
+  if (entryDisclosure) entryDisclosure.open = false;
 });
 
 useTodayButton.addEventListener("click", () => {
