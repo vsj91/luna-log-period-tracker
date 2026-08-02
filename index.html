@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A private period tracker that stores cycle history on this device."
+    />
+    <title>Luna Log Period Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero-panel" aria-labelledby="app-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Private cycle tracking</p>
+          <h1 id="app-title">Luna Log</h1>
+          <p class="lede">
+            Track previous and current periods, symptoms, notes, and cycle predictions with data saved only in this browser.
+          </p>
+        </div>
+
+        <div class="cycle-visual" aria-label="Cycle summary">
+          <div class="cycle-ring" id="cycleRing">
+            <span id="cycleDayLabel">Day -</span>
+            <small id="cyclePhaseLabel">Add a period</small>
+          </div>
+          <div class="next-date">
+            <span>Next estimate</span>
+            <strong id="nextPeriodDate">Not enough data</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-strip" aria-label="Cycle statistics">
+        <article>
+          <span>Average cycle</span>
+          <strong id="averageCycle">-</strong>
+        </article>
+        <article>
+          <span>Average period</span>
+          <strong id="averagePeriod">-</strong>
+        </article>
+        <article>
+          <span>Entries</span>
+          <strong id="entryCount">0</strong>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <form class="entry-form" id="periodForm">
+          <div class="section-heading">
+            <h2>Add current or previous period</h2>
+            <button class="ghost-button" type="button" id="useTodayButton">Today</button>
+          </div>
+
+          <label>
+            Start date
+            <input id="startDate" name="startDate" type="date" required />
+          </label>
+
+          <label>
+            End date
+            <input id="endDate" name="endDate" type="date" />
+          </label>
+
+          <fieldset>
+            <legend>Symptoms</legend>
+            <div class="chip-grid" id="symptomGrid">
+              <label><input type="checkbox" value="Cramps" /> Cramps</label>
+              <label><input type="checkbox" value="Headache" /> Headache</label>
+              <label><input type="checkbox" value="Fatigue" /> Fatigue</label>
+              <label><input type="checkbox" value="Bloating" /> Bloating</label>
+              <label><input type="checkbox" value="Mood changes" /> Mood</label>
+              <label><input type="checkbox" value="Tenderness" /> Tenderness</label>
+            </div>
+          </fieldset>
+
+          <label>
+            Notes
+            <textarea id="notes" name="notes" rows="4" placeholder="Flow, mood, medicine, or anything useful"></textarea>
+          </label>
+
+          <button class="primary-button" type="submit">Save entry</button>
+          <p class="helper-text">Pick any past date to rebuild your history. Entries stay on this device after refresh.</p>
+          <p class="status-line" id="formStatus" role="status"></p>
+        </form>
+
+        <section class="history-panel" aria-labelledby="history-title">
+          <div class="section-heading">
+            <h2 id="history-title">History</h2>
+            <div class="button-row">
+              <button class="ghost-button" type="button" id="exportButton">Export</button>
+              <label class="ghost-button file-button">
+                Import
+                <input id="importFile" type="file" accept="application/json" />
+              </label>
+            </div>
+          </div>
+          <div class="timeline" id="timeline"></div>
+        </section>
+      </section>
+
+      <section class="privacy-panel">
+        <div>
+          <h2>Device-only storage</h2>
+          <p>
+            Your current and previous period entries are saved in this browser's local storage. They do not sync across devices unless you export and import the JSON backup.
+          </p>
+        </div>
+        <button class="danger-button" type="button" id="clearButton">Clear data</button>
+      </section>
+    </main>
+
+    <template id="entryTemplate">
+      <article class="timeline-item">
+        <div>
+          <strong class="entry-range"></strong>
+          <span class="entry-meta"></span>
+          <p class="entry-notes"></p>
+          <div class="entry-symptoms"></div>
+        </div>
+        <button class="icon-button" type="button" aria-label="Delete entry">Delete</button>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
